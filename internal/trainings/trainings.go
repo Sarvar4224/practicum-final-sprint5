@@ -48,14 +48,19 @@ func (t Training) ActionInfo() (string, error) {
 	// TODO: реализовать функцию
 	distance := spentenergy.Distance(t.Steps, t.Height)
 	speed := spentenergy.MeanSpeed(t.Steps, t.Height, t.Duration)
+	var spentCalories float64
+
 	switch t.TrainingType {
 	case "Бег":
-		spentCalories, _ := spentenergy.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
-		return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", t.TrainingType, t.Duration.Hours(), distance, speed, spentCalories), nil
+		spentCalories, _ = spentenergy.RunningSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+
 	case "Ходьба":
-		spentCalories, _ := spentenergy.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
-		return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", t.TrainingType, t.Duration.Hours(), distance, speed, spentCalories), nil
+		spentCalories, _ = spentenergy.WalkingSpentCalories(t.Steps, t.Weight, t.Height, t.Duration)
+
 	default:
 		return "", fmt.Errorf("неизвестный тип тренировки")
 	}
+	result := fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", t.TrainingType, t.Duration.Hours(), distance, speed, spentCalories)
+
+	return result, nil
 }
